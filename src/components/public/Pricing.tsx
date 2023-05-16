@@ -4,12 +4,30 @@ import { CheckIcon } from '@heroicons/react/20/solid'
 import axios from 'axios'
 import { ClipLoader } from 'react-spinners'
 import Link from 'next/link'
-
-const frequencies = [
+interface frequencies {
+  value: string;
+  label: string;
+  priceSuffix: string;
+}[]
+const frequencies:frequencies[] = [
   { value: 'monthly', label: 'Monthly', priceSuffix: '/month' },
   { value: 'annually', label: 'Annually', priceSuffix: '/year' },
 ]
-const tiers = [
+
+
+interface Tier {
+  name: string;
+  id: string;
+  href: string;
+  price: { [key: string]: string };
+  description: string;
+  features: string[];
+  mostPopular: boolean;
+  priceId: { [key: string]: any };
+  tokens: { [key: string]: any };
+}
+
+const tiers:Tier[] = [
   {
     name: 'Starter',
     id: 'starter',
@@ -58,15 +76,11 @@ const tiers = [
     tokens:{monthly:10000000000,annually:10000000}
   },
 ]
-
-function classNames(...classes: string[]) {
-  return classes.filter(Boolean).join(' ')
+function classNames(...classes: Array<string | false | undefined | null>): string {
+  return classes.filter(Boolean).join(' ');
 }
-interface frequencies {
-    value: string;
-    label: string;
-    priceSuffix: string;
-}[]
+
+
 export default function Pricing() {
 
   const [frequency, setFrequency] = useState<frequencies>(frequencies[0])
@@ -139,7 +153,6 @@ export default function Pricing() {
                 <span className="text-4xl font-bold tracking-tight text-white">£{tier.price[frequency.value]}</span>
                 <span className="text-sm font-semibold leading-6 text-gray-300">{frequency.priceSuffix}</span>
               </p>
-              {allowed ? (
                 <button
                 disabled={loading}
                   onClick={() => handleSubmit(tier.name,tier.priceId[frequency.value],tier.tokens[frequency.value])}
@@ -153,19 +166,7 @@ export default function Pricing() {
                 >
                   {loading ? <ClipLoader color="#FFFFFF" size={15} />: "Buy"}
                 </button>
-              ): (
-                <Link
-                // aria-describedby={tier.id}
-                className={classNames(
-                  tier.mostPopular
-                    ? 'bg-sky-500 text-white shadow-sm hover:bg-sky-400  focus-visible:outline-sky-500'
-                    : 'bg-white/10 text-white hover:bg-white/20 focus-visible:outline-white',
-                  'mt-6 block rounded-md py-2 px-3 text-center text-sm font-semibold leading-6 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2'
-                )}
-                href="/api/auth/login">
-                  Buy
-                </Link>
-              )}
+         
          
               <ul role="list" className="mt-8 space-y-3 text-sm leading-6 text-gray-300 xl:mt-10">
                 {tier.features.map((feature) => (
