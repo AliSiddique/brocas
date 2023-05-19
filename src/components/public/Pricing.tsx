@@ -1,3 +1,4 @@
+"use client"
 import { useState } from 'react'
 import { RadioGroup } from '@headlessui/react'
 import { CheckIcon } from '@heroicons/react/20/solid'
@@ -97,23 +98,23 @@ export default function Pricing() {
     window.location.href = data.session.url
   }
   return (
-    <div className="bg-gradient-to-r from-gray-700 via-gray-900 to-black overflow-hidden bg-gray-900 py-24 sm:py-32">
-      <div className="mx-auto max-w-7xl px-6 lg:px-8">
-        <div className="mx-auto max-w-4xl text-center">
+    <div className="py-24 overflow-hidden bg-gray-900 bg-gradient-to-r from-gray-700 via-gray-900 to-black sm:py-32">
+      <div className="px-6 mx-auto max-w-7xl lg:px-8">
+        <div className="max-w-4xl mx-auto text-center">
           <h2 className="text-base font-semibold leading-7 text-sky-400">Pricing</h2>
           <p className="mt-2 text-4xl font-bold tracking-tight text-white sm:text-5xl">
             Pricing plans for programmers of&nbsp;all&nbsp;capabilities
           </p>
         </div>
-        <p className="mx-auto mt-6 max-w-2xl text-center text-lg leading-8 text-gray-300">
+        <p className="max-w-2xl mx-auto mt-6 text-lg leading-8 text-center text-gray-300">
           Choose an affordable plan that’s packed with the best features for debugging your work, creating efficient
           code, and getting the best out of your work.
         </p>
-        <div className="mt-16 flex justify-center">
+        <div className="flex justify-center mt-16">
           <RadioGroup
             value={frequency}
             onChange={setFrequency}
-            className="grid grid-cols-2 gap-x-1 rounded-full bg-white/5 p-1 text-center text-xs font-semibold leading-5 text-white"
+            className="grid grid-cols-2 p-1 text-xs font-semibold leading-5 text-center text-white rounded-full gap-x-1 bg-white/5"
           >
             <RadioGroup.Label className="sr-only">Payment frequency</RadioGroup.Label>
             {frequencies.map((option) => (
@@ -129,7 +130,7 @@ export default function Pricing() {
             ))}
           </RadioGroup>
         </div>
-        <div className="isolate mx-auto mt-10 grid max-w-md grid-cols-1 gap-8 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+        <div className="grid max-w-md grid-cols-1 gap-8 mx-auto mt-10 isolate lg:mx-0 lg:max-w-none lg:grid-cols-3">
           {tiers.map((tier) => (
             <div
               key={tier.id}
@@ -149,7 +150,7 @@ export default function Pricing() {
                 ) : null}
               </div>
               <p className="mt-4 text-sm leading-6 text-gray-300">{tier.description}</p>
-              <p className="mt-6 flex items-baseline gap-x-1">
+              <p className="flex items-baseline mt-6 gap-x-1">
                 <span className="text-4xl font-bold tracking-tight text-white">£{tier.price[frequency.value]}</span>
                 <span className="text-sm font-semibold leading-6 text-gray-300">{frequency.priceSuffix}</span>
               </p>
@@ -171,7 +172,7 @@ export default function Pricing() {
               <ul role="list" className="mt-8 space-y-3 text-sm leading-6 text-gray-300 xl:mt-10">
                 {tier.features.map((feature) => (
                   <li key={feature} className="flex gap-x-3">
-                    <CheckIcon className="h-6 w-5 flex-none text-green-400" aria-hidden="true" />
+                    <CheckIcon className="flex-none w-5 h-6 text-green-400" aria-hidden="true" />
                     {feature.includes('credits') && tier.name != "Pro" ? tier.tokens[frequency.value].toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",") + " credits" : feature}
                   </li>
                 ))}
